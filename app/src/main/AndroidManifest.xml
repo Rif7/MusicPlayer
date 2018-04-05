@@ -20,11 +20,8 @@
             android:name=".ArtistActivity"
             android:label="@string/artist" />
         <activity
-            android:name=".PlayingNow"
+            android:name=".PlayingNowActivity"
             android:label="@string/playing_now" />
-        <activity
-            android:name=".Favorites"
-            android:label="@string/favorites" />
     </application>
 
 </manifest>

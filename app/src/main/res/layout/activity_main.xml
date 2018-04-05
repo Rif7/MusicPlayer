@@ -2,21 +2,45 @@
 <!--
     Used in most activities with displayed list of songs
 -->
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_activity_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <RelativeLayout
-        android:layout_width="fill_parent"
+    <RadioGroup
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true">
-    </RelativeLayout>
+        android:layout_weight="0"
+        android:checkedButton="@id/all_radio_button"
+        android:orientation="horizontal">
+
+        <RadioButton
+            style=""
+            android:id="@+id/all_radio_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="All"
+            android:textAppearance="?android:textAppearanceMedium" />
+
+        <RadioButton
+            android:id="@+id/fav_radio_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/favorites"
+            android:textAppearance="?android:textAppearanceMedium" />
+    </RadioGroup>
 
     <ListView
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+        android:id="@+id/songs_list_view"
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     </ListView>
 
-</RelativeLayout>
+
+</LinearLayout>

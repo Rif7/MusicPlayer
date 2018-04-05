@@ -2,5 +2,5 @@ package com.example.android.musicplayer;
 
 import android.app.Activity;
 
-public class Favorites extends Activity {
+public class PlayingNowActivity extends Activity {
 }
