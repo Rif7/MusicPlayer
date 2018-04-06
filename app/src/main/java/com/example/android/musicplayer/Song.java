@@ -1,10 +1,10 @@
 package com.example.android.musicplayer;
 
 public class Song {
-    String name;
-    Artist artist;
-    Duration duration;
-    Boolean isFavourite;
+    private String name;
+    private Artist artist;
+    private Duration duration;
+    private Boolean isFavourite;
 
     Song(String name, Artist artist, Duration duration) {
         this.name = name;

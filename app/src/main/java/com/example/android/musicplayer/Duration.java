@@ -1,5 +1,7 @@
 package com.example.android.musicplayer;
 
+import java.util.Locale;
+
 public class Duration {
     private int seconds;
 
@@ -19,4 +21,7 @@ public class Duration {
         return seconds % 60;
     }
 
+    public String getTime() {
+        return String.format(Locale.US, "%d:%02d", getNormalizedMinutes(), getNormalizedSeconds());
+    }
 }

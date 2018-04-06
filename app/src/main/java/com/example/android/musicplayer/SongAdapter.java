@@ -1,6 +1,7 @@
 package com.example.android.musicplayer;
 
 import android.content.Context;
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,11 +10,9 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class SongAdapter extends ArrayAdapter<Song> {
     ArrayList<Song> songs;
-    HashMap<ImageButton, Song> refSong;
 
     public SongAdapter(Context context, ArrayList<Song> songs) {
         super(context, 0, songs);
@@ -32,16 +31,28 @@ public class SongAdapter extends ArrayAdapter<Song> {
 
         TextView songNameTextView = (TextView) listItemView.findViewById(R.id.song_name);
         songNameTextView.setText(singleSong.getName());
+
         TextView artistNameTextView = (TextView) listItemView.findViewById(R.id.artist_name);
         artistNameTextView.setText(singleSong.getArtist().getName());
+        artistNameTextView.setPaintFlags(artistNameTextView.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        artistNameTextView.setOnClickListener(new ArtistListener(position));
 
         ImageButton addToFavouritesButton = (ImageButton) listItemView.findViewById(R.id.add_to_favourites_button);
+        setFavouriteIcon(addToFavouritesButton, singleSong.getFavourite());
         addToFavouritesButton.setOnClickListener(new AddToFavouritesListener(addToFavouritesButton, position));
 
         ImageButton playButton = (ImageButton) listItemView.findViewById(R.id.play_button);
         playButton.setOnClickListener(new PlayListener(position));
 
         return listItemView;
+    }
+
+    void setFavouriteIcon(ImageButton imageButtonRef, boolean isFavourite) {
+        if (isFavourite) {
+            imageButtonRef.setImageResource(R.drawable.fav_y);
+        } else {
+            imageButtonRef.setImageResource(R.drawable.fav_n);
+        }
     }
 
     class AddToFavouritesListener implements View.OnClickListener {
@@ -55,14 +66,9 @@ public class SongAdapter extends ArrayAdapter<Song> {
 
         @Override
         public void onClick(View view) {
-            if (songs.get(position).getFavourite()) {
-                songs.get(position).setFavourite(false);
-                imageButtonRef.setImageResource(R.drawable.fav_n);
-            } else {
-                songs.get(position).setFavourite(true);
-                imageButtonRef.setImageResource(R.drawable.fav_y);
-            }
-
+            Song song = songs.get(position);
+            song.setFavourite(!song.getFavourite());
+            setFavouriteIcon(imageButtonRef, song.getFavourite());
         }
     }
 
@@ -76,7 +82,20 @@ public class SongAdapter extends ArrayAdapter<Song> {
         @Override
         public void onClick(View view) {
             ContentManager.getInstance().setPlayingSongNow(songs.get(position));
+        }
+    }
 
+    class ArtistListener implements View.OnClickListener {
+        int position;
+
+        ArtistListener(int position) {
+            this.position = position;
+        }
+
+        @Override
+        public void onClick(View view) {
+            Song song = songs.get(position);
+            MainActivity.activityChanger.changeActivity(song.getArtist());
         }
     }
 

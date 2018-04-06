@@ -21,6 +21,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/song_name"
+        android:textColor="@color/hyperlink"
+        android:textStyle="italic"
         tools:text="Warrior" />
 
     <ImageButton
