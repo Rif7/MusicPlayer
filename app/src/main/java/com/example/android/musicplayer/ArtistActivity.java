@@ -17,6 +17,9 @@ public class ArtistActivity extends AppCompatActivity {
         TextView artistName = (TextView) findViewById(R.id.artist_header);
         artistName.setText(chosenArtist.getName());
 
+        TextView artistDescription = (TextView) findViewById(R.id.artist_description);
+        artistDescription.setText(chosenArtist.getDesctiption());
+
         ImageView artistPhoto = (ImageView) findViewById(R.id.artist_photo);
         artistPhoto.setImageResource(chosenArtist.getImageID());
 

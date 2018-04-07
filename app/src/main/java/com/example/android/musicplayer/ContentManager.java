@@ -1,29 +1,38 @@
 package com.example.android.musicplayer;
 
+import android.app.Activity;
+import android.content.Context;
 import android.support.annotation.Nullable;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 class ContentManager {
     private static final ContentManager ourInstance = new ContentManager();
-    CurrentlyPlaying currentlyPlaying;
+    private CurrentlyPlaying currentlyPlaying;
     Artist chosenArtist;
-    HashMap<String, Artist> artists;
+    private HashMap<String, Artist> artists;
     ArrayList<Song> songs;
+//    Activity activity;
 
 
     static ContentManager getInstance() {
         return ourInstance;
     }
 
+//    public void setActivityContext(Activity activity) {
+//        this.activity = activity;
+//    }
+
     public void setFooterView(TextView songTextViewRef, TextView durationTextViewRef) {
         currentlyPlaying = new CurrentlyPlaying(songTextViewRef, durationTextViewRef);
     }
 
-    public boolean isPlayingSongNow(){
+   private boolean isPlayingSongNow(){
         return currentlyPlaying.currentSong != null;
     }
 
@@ -33,8 +42,8 @@ class ContentManager {
         }
     }
 
-    public void setPlayingSongNow(Song song){
-        currentlyPlaying.changeSong(song);
+    public void setPlayingSongNow(Song song, Context context){
+        currentlyPlaying.changeSong(song, context);
     }
 
     private ContentManager() {
@@ -83,22 +92,75 @@ class ContentManager {
         TextView songTextViewRef;
         TextView durationTextViewRef;
         Song currentSong;
+        SongTimerTask songTimerTask;
+        Timer timer;
+        Duration playedTime;
 
         CurrentlyPlaying(TextView songTextViewRef, TextView durationTextViewRef) {
             this.songTextViewRef = songTextViewRef;
             this.durationTextViewRef = durationTextViewRef;
         }
 
-        void changeSong(Song newSong) {
+        void changeSong(Song newSong, Context context) {
+            if (timer != null) {
+                stop();
+            }
             currentSong = newSong;
+            play(new Duration(), context);
             update();
+        }
+
+        public Duration getPlayedTime() {
+            return playedTime;
+        }
+
+        void play(Duration playedTime, Context context) {
+            this.playedTime = playedTime;
+            songTimerTask = new SongTimerTask(context);
+            timer = new Timer(true);
+            timer.scheduleAtFixedRate(songTimerTask, 0,1000);
+        }
+
+        void stop() {
+            timer.cancel();
+            timer.purge();
+            timer = null;
         }
 
         void update() {
             songTextViewRef.setText(currentSong.getName());
-            String duration = "0:00/" + currentSong.getDuration().getTime();
+            updateTimer(playedTime);
+        }
+
+        void updateTimer(Duration playedTime) {
+            String duration = playedTime.getTime() + "/" + currentSong.getDuration().getTime();
             durationTextViewRef.setText(duration);
         }
+
+        class SongTimerTask extends TimerTask {
+            Context context;
+
+            SongTimerTask(Context context) {
+                this.context = context;
+            }
+
+            @Override
+            public void run() {
+                playedTime.addSecond();
+                ((Activity)context).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        updateTimer(playedTime);
+                    }
+                });
+
+                if (playedTime.getSeconds() == currentSong.getDuration().getSeconds()) {
+                    stop();
+                }
+            }
+
+        }
+
     }
 
     void createLibrary() {

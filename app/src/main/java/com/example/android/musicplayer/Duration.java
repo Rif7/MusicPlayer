@@ -5,12 +5,24 @@ import java.util.Locale;
 public class Duration {
     private int seconds;
 
+    Duration() {
+        this.seconds = 0;
+    }
+
     Duration(int seconds) {
         this.seconds = seconds;
     }
 
     Duration(int normalizedMinutes, int normalizedSeconds) {
         this.seconds = normalizedMinutes*60 + normalizedSeconds;
+    }
+
+    int getSeconds() {
+        return seconds;
+    }
+
+    void addSecond() {
+        seconds++;
     }
 
     int getNormalizedMinutes() {

@@ -18,6 +18,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         activityChanger = new ActivityChanger();
         loadSongsLibrary();
+//        ContentManager.getInstance().mainActivity = this;
 
         createSongsView(true);
         createPlayingNowFooter();

@@ -13,10 +13,12 @@ import java.util.ArrayList;
 
 public class SongAdapter extends ArrayAdapter<Song> {
     ArrayList<Song> songs;
+    Context context;
 
-    public SongAdapter(Context context, ArrayList<Song> songs) {
+    SongAdapter(Context context, ArrayList<Song> songs) {
         super(context, 0, songs);
         this.songs = songs;
+        this.context = context;
     }
 
     @Override
@@ -81,7 +83,7 @@ public class SongAdapter extends ArrayAdapter<Song> {
 
         @Override
         public void onClick(View view) {
-            ContentManager.getInstance().setPlayingSongNow(songs.get(position));
+            ContentManager.getInstance().setPlayingSongNow(songs.get(position), context);
         }
     }
 
