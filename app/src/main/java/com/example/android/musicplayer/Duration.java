@@ -9,12 +9,12 @@ public class Duration {
         this.seconds = 0;
     }
 
-    Duration(int seconds) {
-        this.seconds = seconds;
-    }
-
     Duration(int normalizedMinutes, int normalizedSeconds) {
         this.seconds = normalizedMinutes*60 + normalizedSeconds;
+    }
+
+    void reset() {
+        seconds = 0;
     }
 
     int getSeconds() {

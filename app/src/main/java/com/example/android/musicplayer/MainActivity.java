@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioGroup;
@@ -17,12 +18,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         activityChanger = new ActivityChanger();
-        loadSongsLibrary();
-//        ContentManager.getInstance().mainActivity = this;
+
+        if (ContentManager.getInstance().songs.size() == 0) {
+            loadSongsLibrary();
+        }
 
         createSongsView(true);
         createPlayingNowFooter();
-        setRadioButttonsListeners();
+        setRadioButtonsListeners();
     }
 
     void loadSongsLibrary() {
@@ -47,10 +50,17 @@ public class MainActivity extends AppCompatActivity {
         LinearLayout mainView = (LinearLayout) findViewById(R.id.main_activity_root);
         ContentManager.getInstance().setFooterView(songNameTextView, durationTextView);
         ContentManager.getInstance().updateCurrentlyPlayingLayout();
+        Button playingNowButton = (Button) footer.findViewById(R.id.button_play_now);
+        playingNowButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                activityChanger.changeActivity();
+            }
+        });
         mainView.addView(footer);
     }
 
-    void setRadioButttonsListeners() {
+    void setRadioButtonsListeners() {
         RadioGroup rGroup = findViewById(R.id.radio_button_group);
         rGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -70,8 +80,13 @@ public class MainActivity extends AppCompatActivity {
     class ActivityChanger {
         void changeActivity(Artist artist) {
             ContentManager.getInstance().setChosenArtist(artist);
-            Intent numbersIntent = new Intent(MainActivity.this, ArtistActivity.class);
-            startActivity(numbersIntent);
+            Intent changeActivityIntent = new Intent(MainActivity.this, ArtistActivity.class);
+            startActivity(changeActivityIntent);
+        }
+
+        void changeActivity() {
+            Intent changeActivityIntent = new Intent(MainActivity.this, PlayingNowActivity.class);
+            startActivity(changeActivityIntent);
         }
     }
 

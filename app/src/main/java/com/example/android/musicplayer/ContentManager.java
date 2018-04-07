@@ -17,22 +17,16 @@ class ContentManager {
     Artist chosenArtist;
     private HashMap<String, Artist> artists;
     ArrayList<Song> songs;
-//    Activity activity;
-
 
     static ContentManager getInstance() {
         return ourInstance;
     }
 
-//    public void setActivityContext(Activity activity) {
-//        this.activity = activity;
-//    }
-
     public void setFooterView(TextView songTextViewRef, TextView durationTextViewRef) {
         currentlyPlaying = new CurrentlyPlaying(songTextViewRef, durationTextViewRef);
     }
 
-   private boolean isPlayingSongNow(){
+    public boolean isPlayingSongNow() {
         return currentlyPlaying.currentSong != null;
     }
 
@@ -44,6 +38,10 @@ class ContentManager {
 
     public void setPlayingSongNow(Song song, Context context){
         currentlyPlaying.changeSong(song, context);
+    }
+
+    public CurrentlyPlaying getPlayingSongNow() {
+        return currentlyPlaying;
     }
 
     private ContentManager() {
@@ -71,7 +69,7 @@ class ContentManager {
         return artistsSongs;
     }
 
-    void addSong(String songName, String artistName, int normalizedMinutes, int normalizedSeconds) {
+    private void addSong(String songName, String artistName, int normalizedMinutes, int normalizedSeconds) {
         if (!artists.containsKey(artistName)) {
             artists.put(artistName, new Artist(artistName));
         }
@@ -82,12 +80,6 @@ class ContentManager {
         chosenArtist = artist;
     }
 
-    @Nullable
-    Artist getChosenArtist() {
-        return chosenArtist;
-    }
-
-
     class CurrentlyPlaying {
         TextView songTextViewRef;
         TextView durationTextViewRef;
@@ -95,6 +87,7 @@ class ContentManager {
         SongTimerTask songTimerTask;
         Timer timer;
         Duration playedTime;
+        Context oldContext;
 
         CurrentlyPlaying(TextView songTextViewRef, TextView durationTextViewRef) {
             this.songTextViewRef = songTextViewRef;
@@ -119,6 +112,13 @@ class ContentManager {
             songTimerTask = new SongTimerTask(context);
             timer = new Timer(true);
             timer.scheduleAtFixedRate(songTimerTask, 0,1000);
+            oldContext = context;
+        }
+
+        void play() {
+            songTimerTask = new SongTimerTask(oldContext);
+            timer = new Timer(true);
+            timer.scheduleAtFixedRate(songTimerTask, 0, 1000);
         }
 
         void stop() {
@@ -127,9 +127,21 @@ class ContentManager {
             timer = null;
         }
 
+        void rewind() {
+            if (isPlaying()) {
+                stop();
+            }
+            playedTime.reset();
+            play();
+        }
+
         void update() {
             songTextViewRef.setText(currentSong.getName());
             updateTimer(playedTime);
+        }
+
+        boolean isPlaying() {
+            return timer != null;
         }
 
         void updateTimer(Duration playedTime) {

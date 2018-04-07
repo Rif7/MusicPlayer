@@ -2,10 +2,12 @@ package com.example.android.musicplayer;
 
 import android.content.Context;
 import android.graphics.Paint;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -13,7 +15,7 @@ import java.util.ArrayList;
 
 public class SongAdapter extends ArrayAdapter<Song> {
     ArrayList<Song> songs;
-    Context context;
+    private Context context;
 
     SongAdapter(Context context, ArrayList<Song> songs) {
         super(context, 0, songs);
@@ -22,7 +24,7 @@ public class SongAdapter extends ArrayAdapter<Song> {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         View listItemView = convertView;
         if (listItemView == null) {
             listItemView = LayoutInflater.from(getContext()).inflate(
@@ -31,10 +33,10 @@ public class SongAdapter extends ArrayAdapter<Song> {
 
         Song singleSong = getItem(position);
 
-        TextView songNameTextView = (TextView) listItemView.findViewById(R.id.song_name);
+        TextView songNameTextView = (TextView) listItemView.findViewById(R.id.song_item_name);
         songNameTextView.setText(singleSong.getName());
 
-        TextView artistNameTextView = (TextView) listItemView.findViewById(R.id.artist_name);
+        Button artistNameTextView = (Button) listItemView.findViewById(R.id.artist_name);
         artistNameTextView.setText(singleSong.getArtist().getName());
         artistNameTextView.setPaintFlags(artistNameTextView.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         artistNameTextView.setOnClickListener(new ArtistListener(position));
@@ -49,7 +51,7 @@ public class SongAdapter extends ArrayAdapter<Song> {
         return listItemView;
     }
 
-    void setFavouriteIcon(ImageButton imageButtonRef, boolean isFavourite) {
+    private void setFavouriteIcon(ImageButton imageButtonRef, boolean isFavourite) {
         if (isFavourite) {
             imageButtonRef.setImageResource(R.drawable.fav_y);
         } else {

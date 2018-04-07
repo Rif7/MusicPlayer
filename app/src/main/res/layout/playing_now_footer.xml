@@ -8,27 +8,29 @@
     android:background="@color/play_now"
     android:padding="16dp">
 
-    <TextView
-        android:id="@+id/text_play_now"
+    <Button
+        android:id="@+id/button_play_now"
+        android:layout_height="40dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:layout_alignParentTop="true"
-        android:text="@string/playing_now"/>
+        android:layout_below="@id/song_play_now"
+        android:background="@color/colorPrimaryDark"
+        android:padding="4dp"
+        android:text="@string/playing_now"
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/song_play_now"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/text_play_now"
-        android:text=" --- "/>
+        android:layout_alignParentTop="true"
+        android:text="@string/invalid" />
 
     <TextView
         android:id="@+id/duration"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="-:--/-:--"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"/>
+        android:layout_alignParentTop="true"
+        android:text="@string/invalid_duration" />
 
 </RelativeLayout>

@@ -2,8 +2,8 @@ package com.example.android.musicplayer;
 
 public class Artist {
     String name;
-    String desctiption;
-    int imageID;
+    private String desctiption;
+    private int imageID;
 
     Artist(String name) {
         this.name = name;
