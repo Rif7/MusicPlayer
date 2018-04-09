@@ -7,6 +7,13 @@
     android:orientation="vertical"
     tools:context=".ArtistActivity">
 
+    <Button
+        android:id="@+id/artist_back_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorAccent"
+        android:text="@string/songs_library" />
+
     <TextView
         android:id="@+id/artist_header"
         android:layout_width="match_parent"

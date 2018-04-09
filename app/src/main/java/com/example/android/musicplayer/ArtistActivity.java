@@ -3,6 +3,8 @@ package com.example.android.musicplayer;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -13,6 +15,14 @@ public class ArtistActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_artist);
         Artist chosenArtist = ContentManager.getInstance().chosenArtist;
+
+        Button backButton = (Button) findViewById(R.id.artist_back_button);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         TextView artistName = (TextView) findViewById(R.id.artist_header);
         artistName.setText(chosenArtist.getName());
