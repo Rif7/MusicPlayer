@@ -14,4 +14,10 @@
     <string name="time_0">0:00</string>
     <string name="invalid_duration">-:--/-:--</string>
     <string name="songs_library"><![CDATA[<- songs library]]></string>
+    <string name="favorites_button">favorites button</string>
+    <string name="play_button">play button</string>
+    <string name="rewind_button">rewind button</string>
+    <string name="pause_button">pause button</string>
+    <string name="playing_song_visualisation">playing song visualisation</string>
+    <string name="artist_image">artist image</string>
 </resources>

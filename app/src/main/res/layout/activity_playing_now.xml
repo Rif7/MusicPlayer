@@ -18,6 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="250dp"
         android:scaleType="centerCrop"
+        android:contentDescription="@string/playing_song_visualisation"
         android:src="@drawable/player_image" />
 
     <TextView
@@ -46,6 +47,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:contentDescription="@string/rewind_button"
             android:src="@drawable/rewind" />
 
         <ImageButton
@@ -53,6 +55,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:contentDescription="@string/pause_button"
             android:src="@drawable/pause" />
 
         <ImageButton
@@ -60,6 +63,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:contentDescription="@string/play_button"
             android:src="@drawable/play" />
 
     </LinearLayout>

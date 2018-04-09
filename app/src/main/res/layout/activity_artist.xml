@@ -34,6 +34,7 @@
         android:layout_width="match_parent"
         android:layout_height="250dp"
         android:scaleType="centerCrop"
+        android:contentDescription="@string/artist_image"
         android:src="@drawable/artists1" />
 
     <TextView
